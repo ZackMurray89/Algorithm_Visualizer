@@ -13,6 +13,10 @@ interface ControlsProps {
   onAlgorithmChange: (id: string) => void;
   onArrayGenerate: (arr: number[]) => void;
   onStart: () => void;
+  onPause: () => void;
+  onResume: () => void;
+  isSorting: boolean;
+  isPaused: boolean;
   speed: number;
   onSpeedChange: (value: number) => void;
 }
@@ -22,6 +26,10 @@ export const Controls: React.FC<ControlsProps> = ({
   onAlgorithmChange,
   onArrayGenerate,
   onStart,
+  onPause,
+  onResume,
+  isSorting,
+  isPaused,
   speed,
   onSpeedChange
 }) => {
@@ -32,18 +40,23 @@ export const Controls: React.FC<ControlsProps> = ({
 
   return (
     <section className="w-full flex flex-col sm:flex-row justify-center items-center gap-4 py-4">
-      <AlgorithmSelector selected={selectedAlgorithm} onChange={onAlgorithmChange} />
+      <AlgorithmSelector 
+        selected={selectedAlgorithm} 
+        onChange={onAlgorithmChange} 
+      />
 
       <motion.button
         whileTap={{ scale: 0.97 }}
         whileHover={{ scale: 1.03 }}
         onClick={handleGenerate}
         className="px-4 py-2 rounded-md bg-blue-600 text-white font-medium shadow-sm hover:bg-blue-700 transition"
+        disabled={isSorting}
       >
         Generate Array
       </motion.button>
 
-      <motion.button
+      {!isSorting ? (
+        <motion.button
         whileTap={{ scale: 0.97 }}
         whileHover={{ scale: 1.03 }}
         onClick={onStart}
@@ -51,6 +64,26 @@ export const Controls: React.FC<ControlsProps> = ({
       >
         Start
       </motion.button>
+      ) : isPaused ? (
+        <motion.button
+        whileTap={{ scale: 0.97 }}
+        whileHover={{ scale: 1.03 }}
+        onClick={onResume}
+        className="px-4 py-2 rounded-md bg-yellow-500 text-white font-medium shadow-sm hover:bg-yellow-600 transition"
+      >
+        Resume
+      </motion.button>
+      ) : (
+        <motion.button
+          whileTap={{ scale: 0.97 }}
+          whileHover={{ scale: 1.03 }}
+          onClick={onPause}
+          className="px-4 py-2 rounded-md bg-orange-500 text-white font-medium shadow-sm hover:bg-orange-600 transition"
+        >
+          Pause
+        </motion.button>
+      )}
+      
 
       {/* Speed Slider */}
       <div className="flex items-center gap-2 text-sm text-gray-300">
