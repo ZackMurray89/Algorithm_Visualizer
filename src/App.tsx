@@ -12,6 +12,7 @@ import {
 
 import type { AlgorithmId } from "./types";
 import { AlgorithmInfo } from "./components/info/AlgorithmInfo";
+import { CodeDisplay } from "./components/codeDisplay/CodeDisplay";
 
 function App() {
   const [algorithm, setAlgorithm] = useState<AlgorithmId>("bubbleSort");
@@ -104,6 +105,8 @@ function App() {
           algorithmId={algorithm}
           stepDescription={currentStepDescription}
         />
+
+        <CodeDisplay algorithmId={algorithm} />
       </div>
     </Layout>
   )
